@@ -1,1 +1,5 @@
 .DS_Store
+Build/
+DerivedData/
+Pokemon.xcodeproj/xcuserdata/
+Pokemon.xcodeproj/project.xcworkspace/xcuserdata/
