@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C9C6ED51F57D8E400B6AF38 /* DecoderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9C6ED41F57D8E400B6AF38 /* DecoderTest.swift */; };
+		3C9C6ED71F57D93600B6AF38 /* PokemonTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9C6ED61F57D93600B6AF38 /* PokemonTestData.swift */; };
+		3C9C6ED91F57DB7A00B6AF38 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9C6ED81F57DB7A00B6AF38 /* SwiftyJSON.swift */; };
 		3C9E4DDF1F56C550002ABA7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E4DDE1F56C550002ABA7F /* AppDelegate.swift */; };
 		3C9E4DE11F56C550002ABA7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E4DE01F56C550002ABA7F /* ViewController.swift */; };
 		3C9E4DE41F56C550002ABA7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C9E4DE21F56C550002ABA7F /* Main.storyboard */; };
@@ -28,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C9C6ED41F57D8E400B6AF38 /* DecoderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderTest.swift; sourceTree = "<group>"; };
+		3C9C6ED61F57D93600B6AF38 /* PokemonTestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTestData.swift; sourceTree = "<group>"; };
+		3C9C6ED81F57DB7A00B6AF38 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		3C9E4DDB1F56C550002ABA7F /* Pokemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9E4DDE1F56C550002ABA7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C9E4DE01F56C550002ABA7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +95,7 @@
 				3C9E4DEA1F56C550002ABA7F /* Info.plist */,
 				3C9E4DFE1F56C63D002ABA7F /* NetworkLoader.swift */,
 				3C9E4E001F56CD91002ABA7F /* PokemonDecoder.swift */,
+				3C9C6ED81F57DB7A00B6AF38 /* SwiftyJSON.swift */,
 			);
 			path = Pokemon;
 			sourceTree = "<group>";
@@ -98,6 +105,8 @@
 			children = (
 				3C9E4DF31F56C550002ABA7F /* PokemonTests.swift */,
 				3C9E4DF51F56C550002ABA7F /* Info.plist */,
+				3C9C6ED41F57D8E400B6AF38 /* DecoderTest.swift */,
+				3C9C6ED61F57D93600B6AF38 /* PokemonTestData.swift */,
 			);
 			path = PokemonTests;
 			sourceTree = "<group>";
@@ -208,6 +217,7 @@
 				3C9E4DE11F56C550002ABA7F /* ViewController.swift in Sources */,
 				3C9E4DFF1F56C63D002ABA7F /* NetworkLoader.swift in Sources */,
 				3C9E4E011F56CD91002ABA7F /* PokemonDecoder.swift in Sources */,
+				3C9C6ED91F57DB7A00B6AF38 /* SwiftyJSON.swift in Sources */,
 				3C9E4DDF1F56C550002ABA7F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,7 +226,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C9C6ED51F57D8E400B6AF38 /* DecoderTest.swift in Sources */,
 				3C9E4DF41F56C550002ABA7F /* PokemonTests.swift in Sources */,
+				3C9C6ED71F57D93600B6AF38 /* PokemonTestData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

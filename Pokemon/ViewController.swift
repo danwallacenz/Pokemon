@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        NetworkLoader.loadAllPokemon { [weak self] results in
+        NetworkLoader.loadAllPokemon { results in
             print(results)
         }
     }

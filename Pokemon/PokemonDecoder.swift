@@ -8,4 +8,18 @@
 
 import Foundation
 
-
+struct PokemonDecoder {
+    
+    static func decode(data: Data) -> [[String:String]]? {
+        
+        let json = JSON(data: data)
+        guard let results = json.dictionaryObject?["results"] as? [[String : String]] else { return nil }
+        let names = results.flatMap({ dict -> [String : String]? in
+            if let name = dict["name"], let urlString = dict["url"], let url = URL(string: urlString) {
+                return ["name" : name, "id": url.pathComponents.last ?? "?"] //.description
+            }
+            return nil
+        })
+        return names
+    }
+}
