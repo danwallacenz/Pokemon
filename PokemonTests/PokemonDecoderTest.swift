@@ -1,15 +1,15 @@
 //
-//  PokemonTests.swift
+//  PokemonDecoderTest.swift
 //  PokemonTests
 //
-//  Created by Daniel Wallace on 30/08/17.
+//  Created by Daniel Wallace on 31/08/17.
 //  Copyright © 2017 danwallacenz. All rights reserved.
 //
 
 import XCTest
 @testable import Pokemon
 
-class PokemonTests: XCTestCase {
+class PokemonDecoderTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -21,9 +21,16 @@ class PokemonTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testDecodeAll() {
+        
+        guard let testData = PokemonTestData.all.data(using: .utf8) else { XCTFail("No test data"); return }
+        
+        let decoded = PokemonDecoder.decode(data: testData)
+        XCTAssertNotNil(decoded)
+        
+        guard let decodedCount = PokemonDecoder.decodeCount(from: testData) else { XCTFail("No count"); return }
+        
+        XCTAssertEqual(decodedCount, decoded!.count)
     }
     
     func testPerformanceExample() {
@@ -32,5 +39,4 @@ class PokemonTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    
 }
