@@ -28,7 +28,9 @@ class DecoderTest: XCTestCase {
         let decoded = PokemonDecoder.decode(data: testData)
         XCTAssertNotNil(decoded)
         
+        guard let decodedCount = PokemonDecoder.decodeCount(from: testData) else { XCTFail("No count"); return }
         
+        XCTAssertEqual(decodedCount, decoded!.count)
     }
     
     func testPerformanceExample() {
@@ -37,5 +39,4 @@ class DecoderTest: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    
 }

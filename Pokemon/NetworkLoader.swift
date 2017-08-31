@@ -11,11 +11,9 @@ import Foundation
 class NetworkLoader {
     
     static func loadAllPokemon(completion: @escaping (String) -> ()) {
-//        if let url = URL(string: "https://pokeapi.co/api/v2/pokemon") {
-        
+
             if var urlComponents = URLComponents(string: "https://pokeapi.co/api/v2/pokemon") {
-                urlComponents.query = "limit=1000&offset=20"
-                // 3
+                urlComponents.query = "limit=1000&offset=0"
                 guard let url = urlComponents.url else { return }
             
             (URLSession.shared.dataTask(with: url) { (data, response, error) in
