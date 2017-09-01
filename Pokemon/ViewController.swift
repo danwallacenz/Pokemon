@@ -110,9 +110,9 @@ extension ViewController {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        filteredPokemon = PokemonStore.sortedPokemonNames.filter({(name : String) -> Bool in
-            return name.lowercased().contains(searchText.lowercased())
-        })
+        filteredPokemon = PokemonStore.sortedPokemonNames.filter {
+            $0.lowercased().starts(with: searchText.lowercased())
+        }
         tableView.reloadData()
     }
     
