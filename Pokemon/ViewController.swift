@@ -14,12 +14,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredPokemon = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView() // suppress separators for empty rows
+        
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
         
         if PokemonStore.allPokemon.isEmpty {
             activityIndicatorView.startAnimating()
@@ -36,13 +45,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return PokemonStore.allPokemon.count
+        //return PokemonStore.sortedPokemonNames.count
+        if isFiltering() {
+            return filteredPokemon.count
+        }
+        return PokemonStore.sortedPokemonNames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
-        let pokemonName = PokemonStore.sortedPokemonNames[indexPath.row]
+        let pokemonName: String
+        if isFiltering() {
+            pokemonName = filteredPokemon[indexPath.row]
+        } else {
+            pokemonName = PokemonStore.sortedPokemonNames[indexPath.row]
+        }
         
         cell.textLabel!.text = pokemonName
         return cell
@@ -71,6 +89,33 @@ extension ViewController {
             PokemonStore.allPokemon = decodedPokemon
             completion()
         }
+    }
+}
+
+extension ViewController: UISearchResultsUpdating {
+    
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}
+
+extension ViewController {
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredPokemon = PokemonStore.sortedPokemonNames.filter({(name : String) -> Bool in
+            return name.lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
     }
 }
 
