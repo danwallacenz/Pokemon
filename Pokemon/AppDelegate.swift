@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        loadDecodeStorePokemon()
+        //loadDecodeStorePokemon()
         return true
     }
 
@@ -30,8 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let decodedPokemon = PokemonDecoder.decode(data: allPokemon) else {
                     print("No results? Decoding error?"); return }
             
+            // TODO: debugging-remove
             if let results = String(data: allPokemon, encoding: .utf8) {
-                print(results) // TODO: debugging-remove
+                print(results)
             }
             PokemonStore.allPokemon = decodedPokemon
         }

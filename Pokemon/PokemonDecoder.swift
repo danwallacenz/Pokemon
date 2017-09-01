@@ -20,17 +20,21 @@ struct PokemonDecoder {
     ///
     /// - Parameter data: Downloaded data
     /// - Returns: [["name": String, "id": String(Int)]]?
-    static func decode(data: Data) -> [[String: String]]? {
+    static func decode(data: Data) -> [String: String]? {
         let json = JSON(data: data)
         // Extract the payload
         guard let results = json.dictionaryObject?["results"] as? [[String : String]] else { return nil }
-        // We'll end up with an Array of ["name": String, "id": String(Int)]
-        let names = results.flatMap({ dict -> [String : String]? in
+        // We'll end up with an Array of [String<name>:  String(Int)<id>]
+        let names = results.flatMap({ dict -> (name: String, id: String)? in
             if let name = dict["name"], let urlString = dict["url"], let url = URL(string: urlString) {
-                return ["name" : name, "id": url.pathComponents.last ?? "?"]
+                return (name: name, id: url.pathComponents.last ?? "?")
             }
             return nil
         })
-        return names
+        var dict: [String: String] = [:]
+        for pokemon in names {
+            dict[pokemon.name] = pokemon.id
+        }
+        return dict
     }
 }
