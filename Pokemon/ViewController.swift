@@ -28,16 +28,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self?.activityIndicatorView.stopAnimating()
             }
         }
-//        NetworkLoader.loadAllPokemon { (allPokemon, errorMsg) in
-//            if let allPokemon = allPokemon,
-//                let decodedPokemon = PokemonDecoder.decode(data: allPokemon) {
-//                PokemonStore.allPokemon = decodedPokemon
-//            }
-//            if let errorMsg = errorMsg {
-//                // TODO: inform user
-//                print("Network error: \(errorMsg)")
-//            }
-//        }
     }
     
     // MARK: - Table View
@@ -59,6 +49,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 }
 
+// TODO: Move to a controller object
 extension ViewController {
     private func loadDecodeStorePokemon(completion: @escaping ()->()) {
         // Fetch
