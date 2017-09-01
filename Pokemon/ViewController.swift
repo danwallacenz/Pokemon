@@ -24,6 +24,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.delegate = self
         tableView.tableFooterView = UIView() // suppress separators for empty rows
         
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         // Setup the Search Controller
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
