@@ -11,6 +11,7 @@ import Foundation
 class PokemonStore {
     
     private static let defaults = UserDefaults.standard
+    
     static var _inMemoryCache = [[String: String]]() // Not private for testing
 
     static var allPokemon: [[String: String]] {
