@@ -27,7 +27,7 @@ struct PokemonDecoder {
         // We'll end up with an Array of [String<name>:  String(Int)<id>]
         let names = results.flatMap({ dict -> (name: String, id: String)? in
             if let name = dict["name"], let urlString = dict["url"], let url = URL(string: urlString) {
-                return (name: name, id: url.pathComponents.last ?? "?")
+                return (name: name.capitalized, id: url.pathComponents.last ?? "?")
             }
             return nil
         })
