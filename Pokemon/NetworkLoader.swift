@@ -10,7 +10,7 @@ import Foundation
 
 class NetworkLoader {
     
-    static func loadAllPokemon(completion: @escaping (String) -> ()) {
+    static func loadAllPokemon(completion: @escaping (Data?, String?) -> ()) {
 
             if var urlComponents = URLComponents(string: "https://pokeapi.co/api/v2/pokemon") {
                 urlComponents.query = "limit=1000&offset=0"
@@ -20,13 +20,17 @@ class NetworkLoader {
                 if let error = error {
                     print("Error: \(error)")
                     
-                } else if let response = response,
-                    let data = data,
-                    let results = String(data: data, encoding: .utf8) {
-                        print("Response: \(response)")
-                        print("DATA:\n\(results)\nEND DATA\n")
-                        completion(results)
+                } else if let response = response as? HTTPURLResponse,
+                    response.statusCode == 200,
+                    let data = data {
+                    DispatchQueue.main.async {
+                        completion(data, nil)
+                    }
                 }
+//                    let results = String(data: data, encoding: .utf8) {
+//                        print("Response: \(response)")
+//                        print("DATA:\n\(results)\nEND DATA\n")
+//                        completion(results)
             }).resume()
         }
     }
