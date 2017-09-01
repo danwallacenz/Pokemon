@@ -111,7 +111,8 @@ extension ViewController {
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredPokemon = PokemonStore.sortedPokemonNames.filter({(name : String) -> Bool in
-            return name.lowercased().contains(searchText.lowercased())
+//            return name.lowercased().contains(searchText.lowercased())
+            return name.lowercased().starts(with: searchText.lowercased())
         })
         tableView.reloadData()
     }
