@@ -109,7 +109,7 @@ extension MasterViewController {
             // Save baseURL
             let baseUrL = decodedData.baseURL
             PokemonStore.baseURL = baseUrL
-            
+        
             completion()
         }
     }

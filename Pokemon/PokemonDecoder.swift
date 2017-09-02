@@ -44,7 +44,12 @@ struct PokemonDecoder {
         let json = JSON(data: data)
         guard let results = json.dictionaryObject?["results"] as? [[String : String]] else { return nil }
         
-        // Extract base URL
+//        // Extract base URL
+//        guard let first = results.first,
+//            let urlString = first["url"],
+//            let url = URL(string: urlString) else { return nil }
+//
+//        let baseURL = url.deletingLastPathComponent()
         guard let baseURL = extractBaseURL(from: results) else { return nil }
         
         // Convert [["name": "pikachu-pop-star", "url": "https://pokeapi.co/api/v2/pokemon/10082/"], ...] -> [["Pikachu-Pop-Star": ["id": "10082"], ...]
