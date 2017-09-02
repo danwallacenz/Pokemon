@@ -24,14 +24,13 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         tableView.tableFooterView = UIView() // suppress separators for empty rows
         
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         // Setup the Search Controller
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         
+        // Load data first time. TODO: What about new data?
         if PokemonStore.allPokemon.isEmpty {
             activityIndicatorView.startAnimating()
             loadDecodeStorePokemon { [weak self] in
@@ -39,8 +38,6 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
                 self?.activityIndicatorView.stopAnimating()
             }
         }
-        print(PokemonStore.allPokemon) // TODO: remove
-        print()
     }
     
     // MARK: - Table View
@@ -69,10 +66,12 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
 
+    // MARK: - Navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //guard let row = self.tableView.indexPathForSelectedRow?.row else { fatalError() }
+        
         guard let detailVC = segue.destination as? DetailViewController else { fatalError() }
         guard let cell = sender as? UITableViewCell else { fatalError() }
+        // Storing data in cell is not so great!
         guard let selectedPokemonName = cell.textLabel?.text else { fatalError() }
         guard let selectedPokemonID = PokemonStore.id(for: selectedPokemonName) else { fatalError() }
         
@@ -80,7 +79,7 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
      }
 }
 
-// TODO: Move to a controller object
+// TODO: Move to a controller object?
 extension MasterViewController {
     private func loadDecodeStorePokemon(completion: @escaping ()->()) {
         // Fetch
@@ -93,11 +92,6 @@ extension MasterViewController {
             guard let allPokemon = allPokemon,
                 let decodedData = PokemonDecoder.decode2(data: allPokemon)
             else { print("No results? Decoding error?"); return }
-            
-            // TODO: debugging-remove
-            if let results = String(data: allPokemon, encoding: .utf8) {
-                print(results)
-            }
            
             // Save data
             let pokemonData = decodedData.data
@@ -114,7 +108,6 @@ extension MasterViewController {
 
 extension MasterViewController: UISearchResultsUpdating {
     
-    // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
@@ -123,7 +116,6 @@ extension MasterViewController: UISearchResultsUpdating {
 extension MasterViewController {
     
     func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
