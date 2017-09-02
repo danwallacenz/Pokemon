@@ -20,12 +20,10 @@ class PokemonStore {
     
     static var baseURL: URL? {
         get {
-            let urlString = defaults.value(forKey: "baseURL") as? String
-            return URL.init(string: urlString ?? "error")
+            return defaults.url(forKey: "baseURL") 
         }
         set {
-            let urlString = newValue?.absoluteString
-            defaults.set(urlString, forKey: "baseURL")
+            defaults.set(newValue, forKey: "baseURL")
         }
     }
     
@@ -44,6 +42,6 @@ class PokemonStore {
     }
     
     static func id(for pokemonName: String) -> String? {
-        return _inMemoryCache[pokemonName]?["id"]
+        return allPokemon[pokemonName]?["id"]
     }
 }
