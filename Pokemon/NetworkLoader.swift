@@ -18,8 +18,8 @@ class NetworkLoader {
             
             (URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
-                    print("Error: \(error)")
-                    
+                    print("Error: \(error.localizedDescription)")
+                    completion(nil, error.localizedDescription)
                 } else if let response = response as? HTTPURLResponse,
                     response.statusCode == 200,
                     let data = data {
@@ -27,16 +27,27 @@ class NetworkLoader {
                         completion(data, nil)
                     }
                 }
-//                    let results = String(data: data, encoding: .utf8) {
-//                        print("Response: \(response)")
-//                        print("DATA:\n\(results)\nEND DATA\n")
-//                        completion(results)
             }).resume()
         }
     }
     
-    static func loadPokemon(withId id: String) {
+    static func loadPokemon(withId id: String, completion: @escaping (Data?, String?) -> ()) {
         
+        guard let baseURL = PokemonStore.baseURL else { fatalError() }
+        let url = baseURL.appendingPathComponent("\(id)/")
+        
+        (URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion(nil, error.localizedDescription)
+            } else if let response = response as? HTTPURLResponse,
+                response.statusCode == 200,
+                let data = data {
+                DispatchQueue.main.async {
+                    completion(data, nil)
+                }
+            }
+        }).resume()
     }
     
 }

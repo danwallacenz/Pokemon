@@ -39,6 +39,8 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
                 self?.activityIndicatorView.stopAnimating()
             }
         }
+        print(PokemonStore.allPokemon) // TODO: remove
+        print()
     }
     
     // MARK: - Table View
@@ -66,24 +68,16 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         cell.textLabel!.text = pokemonName
         return cell
     }
-    
-    
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
 
-        guard let row = self.tableView.indexPathForSelectedRow?.row else { fatalError() }
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //guard let row = self.tableView.indexPathForSelectedRow?.row else { fatalError() }
         guard let detailVC = segue.destination as? DetailViewController else { fatalError() }
-        
-        let selectedPokemonName = PokemonStore.sortedPokemonNames[row]
+        guard let cell = sender as? UITableViewCell else { fatalError() }
+        guard let selectedPokemonName = cell.textLabel?.text else { fatalError() }
         guard let selectedPokemonID = PokemonStore.id(for: selectedPokemonName) else { fatalError() }
         
         detailVC.pokemonID = selectedPokemonID
      }
-    
 }
 
 // TODO: Move to a controller object

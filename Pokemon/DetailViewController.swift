@@ -12,7 +12,25 @@ class DetailViewController: UIViewController {
 
     var pokemonID: String? {
         didSet{
-            print("My pokemon has ID \(pokemonID)")
+            print("My pokemon has ID \(String(describing: pokemonID))")
+            guard let pokemonID = pokemonID else { fatalError() }
+            loadPokemon(withID: pokemonID)
+        }
+    }
+    
+    private func loadPokemon(withID id: String) {
+        NetworkLoader.loadPokemon(withId: id) { (pokemonData, errorMsg) in
+            if let errorMsg = errorMsg {
+                print(errorMsg); return
+            }
+            guard let pokemonData = pokemonData else { return }
+            // TODO: debugging-remove
+            if let results = String(data: pokemonData, encoding: .utf8) {
+                print(results)
+            }
+            print()
+            PokemonDecoder.decodePokemon(data: pokemonData)
+            
         }
     }
     

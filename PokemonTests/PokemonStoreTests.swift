@@ -56,8 +56,25 @@ class PokemonStoreTests: XCTestCase {
         // when
         PokemonStore.baseURL = testURL
         // then
-        guard let loadedURL = defaults.value(forKey: "baseURL") as? URL else { XCTFail("Did not save URL") ; return }
+        guard let loadedURL = defaults.url(forKey: "baseURL") as? URL else { XCTFail("Did not save URL") ; return }
         XCTAssertEqual(testURL, loadedURL)
     }
     
+    func testLoadBaseURL() {
+        // given
+        let testURL = URL(string: "https://testpokeapi.co/api/v2/pokemon/")
+        defaults.set(testURL, forKey: "baseURL")
+        // when
+        let loadedURL = PokemonStore.baseURL
+        // then
+        XCTAssertEqual(testURL, loadedURL)
+    }
+    
+    func testIdForPokemonName() {
+        // given - empty store
+        PokemonStore.allPokemon = testData
+        // when
+        let id = PokemonStore.id(for: "Pokemon1")
+        XCTAssertEqual("1", id)
+    }
 }
