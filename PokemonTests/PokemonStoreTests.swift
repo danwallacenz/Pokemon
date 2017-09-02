@@ -77,4 +77,21 @@ class PokemonStoreTests: XCTestCase {
         let id = PokemonStore.id(for: "Pokemon1")
         XCTAssertEqual("1", id)
     }
+    
+    func testSortedPokemonDictionary() {
+        
+        // given
+        let testData = ["A":  ["id": "1"], "CCCC": ["id": "3"], "Bb": ["id": "2"], "AA":  ["id": "4"]]
+        PokemonStore.allPokemon = testData
+
+        // when
+        let result = PokemonStore.sortedPokemonDictionary()
+        
+        let firstChars = PokemonStore.allPokemon.keys.map { String($0.characters.first!) }
+        let firstCharsCount = Set(firstChars).count
+        
+        // then
+        XCTAssertEqual(firstCharsCount, result.count )
+        //print(result)
+    }
 }

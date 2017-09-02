@@ -49,7 +49,12 @@ class DetailViewController: UIViewController {
         
         // images
         let images = pokemon.images
-        guard images.count > 0 else { return }
+        guard images.count > 0 else {
+            activityIndicatorView.stopAnimating()
+            setHidden(false) // no more data
+            return
+        }
+        // Could have an animated image with these ...
         for key in images.keys {
             guard let imageURL = images[key] else { continue }
             NetworkLoader.loadImage(fromURL: imageURL) { [weak self] (image, errorMsg) in
@@ -61,7 +66,7 @@ class DetailViewController: UIViewController {
                         strongSelf.pokemon?.addPNG(for: key, image: image)
                         strongSelf.imageView.image = image
                     }
-                strongSelf.activityIndicatorView.stopAnimating()
+                    strongSelf.activityIndicatorView.stopAnimating()
                     strongSelf.setHidden(false) // we have enough data
                 }
             }
