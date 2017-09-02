@@ -7,11 +7,17 @@
 //
 
 import Foundation
+import UIKit
 
 struct Pokemon {
     let id: String
     let name: String
     let weight: Int
     let height: Int
-    let img: URL
+    let images: [String: URL]
+    var pngs: [String: UIImage]? = [:]
+    
+    mutating func addPNG(for key: String, image: UIImage) {
+        pngs?[key] = image
+    }
 }

@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 class NetworkLoader {
     
+    // TODO: set timeout
     static func loadAllPokemon(completion: @escaping (Data?, String?) -> ()) {
 
             if var urlComponents = URLComponents(string: "https://pokeapi.co/api/v2/pokemon") {
@@ -50,4 +52,19 @@ class NetworkLoader {
         }).resume()
     }
     
+    static func loadImage(fromURL url: URL, completion: @escaping (UIImage?, String?) -> ()) {
+        (URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion(nil, error.localizedDescription)
+            } else if let response = response as? HTTPURLResponse,
+                response.statusCode == 200,
+                let data = data,
+                let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    completion(image, nil)
+                }
+            }
+        }).resume()
+    }
 }
