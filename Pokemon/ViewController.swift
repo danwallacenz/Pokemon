@@ -80,15 +80,22 @@ extension ViewController {
             }
             // Decode
             guard let allPokemon = allPokemon,
-                let decodedPokemon = PokemonDecoder.decode(data: allPokemon) else {
-                    print("No results? Decoding error?"); return }
+                let decodedData = PokemonDecoder.decode2(data: allPokemon)
+            else { print("No results? Decoding error?"); return }
             
             // TODO: debugging-remove
             if let results = String(data: allPokemon, encoding: .utf8) {
                 print(results)
             }
-            // Save
-            PokemonStore.allPokemon = decodedPokemon
+           
+            // Save data
+            let pokemonData = decodedData.data
+            PokemonStore.allPokemon = pokemonData
+            
+            // Save baseURL
+            let baseUrL = decodedData.baseURL
+            PokemonStore.baseURL = baseUrL
+            
             completion()
         }
     }

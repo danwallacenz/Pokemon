@@ -12,7 +12,7 @@ import XCTest
 class PokemonStoreTests: XCTestCase {
     
     private let defaults = UserDefaults.standard
-    let testData = [["name": "Pokemon1", "id": "1"], ["name": "Pokemon2", "id": "2"]]
+    let testData = ["Pokemon1":  ["id": "1"], "Pokemon2": ["id": "2"]]
     
     override func setUp() {
         super.setUp()
@@ -26,20 +26,21 @@ class PokemonStoreTests: XCTestCase {
     
     private func clearStore() {
         defaults.setValue(nil, forKey: "all")
-        PokemonStore._inMemoryCache = []
+        defaults.setValue(nil, forKey: "baseURL")
+        PokemonStore._inMemoryCache = [:]
     }
     
-    func testSave() {
+    func testSavePokemon() {
         // given - empty store
         // when
         PokemonStore.allPokemon = testData
         // then
-        guard let loaded = defaults.value(forKey: "all") as? [[String: String]] else { XCTFail("Did not save") ; return }
+        guard let loaded = defaults.value(forKey: "all") as? [String: [String: String]] else { XCTFail("Did not save") ; return }
         XCTAssertEqual(testData.count, loaded.count)
         XCTAssertEqual(testData.count, PokemonStore._inMemoryCache.count)
     }
     
-    func testLoad() {
+    func testLoadPokemon() {
         // given
         defaults.setValue(testData, forKey: "all")
         // when
@@ -48,4 +49,15 @@ class PokemonStoreTests: XCTestCase {
         XCTAssertEqual(testData.count,  loaded.count)
         XCTAssertEqual(testData.count, PokemonStore._inMemoryCache.count)
     }
+    
+    func testSaveBaseURL() {
+        // given
+        let testURL = URL(string: "https://testpokeapi.co/api/v2/pokemon/")
+        // when
+        PokemonStore.baseURL = testURL
+        // then
+        guard let loadedURL = defaults.value(forKey: "baseURL") as? URL else { XCTFail("Did not save URL") ; return }
+        XCTAssertEqual(testURL, loadedURL)
+    }
+    
 }
