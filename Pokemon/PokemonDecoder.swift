@@ -77,25 +77,13 @@ struct PokemonDecoder {
         guard let height = dict["height"] as? Int else { return nil }
         var spriteDict = [String: URL]()
         if let sprites = dict["sprites"] as? [String: Any] {
-//            print(sprites)
-//            for key in sprites.keys {
-//                print("\(key):\(sprites[key])")
-//            }
-//            let nonNullSprites = sprites.keys.flatMap {
-//                sprites[$0] as? String
-//            }
-            
             for key in sprites.keys {
                 if let urlString = sprites[key] as? String,
                     let url = URL(string: urlString) {
                     spriteDict[key] = url
                 }
             }
-            print(spriteDict)
-//            print("\nnonNullSprites = \(nonNullSprites)")
         }
-//        let sprites = dict["sprites"]
-//        print(sprites)
         
         print(id, name, weight, height, spriteDict)
         let pokemon = Pokemon(id: String(id), name: name.capitalized, weight: weight, height: height, images: spriteDict, pngs: nil)

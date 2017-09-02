@@ -18,7 +18,11 @@ class NetworkLoader {
                 urlComponents.query = "limit=1000&offset=0"
                 guard let url = urlComponents.url else { return }
             
-            (URLSession.shared.dataTask(with: url) { (data, response, error) in
+            let defaultConfiguration = URLSessionConfiguration.default
+                defaultConfiguration.timeoutIntervalForRequest = 10
+            let session = URLSession(configuration: defaultConfiguration)
+                
+            (session.dataTask(with: url) { (data, response, error) in
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                     completion(nil, error.localizedDescription)

@@ -38,6 +38,15 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
                 self?.activityIndicatorView.stopAnimating()
             }
         }
+        // Experimental
+        let groupedPokemon = Dictionary(grouping: PokemonStore.allPokemon.keys){ String($0.characters.first!) }
+        let sortedGroupedPokemon = groupedPokemon.mapValues { $0.sorted() }
+        let firstCharsSortedDict = sortedGroupedPokemon.map{ [String($0.key): $0.value]  }
+
+        let result = firstCharsSortedDict.sorted { (a, b) in
+            a.keys.first! < b.keys.first!
+        }
+        print(result)
     }
     
     // MARK: - Table View
