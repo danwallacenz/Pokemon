@@ -42,4 +42,8 @@ class PokemonStore {
             _inMemoryCache = defaults.value(forKey: "all") as? [String: [String: String]] ?? [:]
         }
     }
+    
+    static func id(for pokemonName: String) -> String? {
+        return _inMemoryCache[pokemonName]?["id"]
+    }
 }

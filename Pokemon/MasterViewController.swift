@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MasterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -47,7 +47,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return PokemonStore.sortedPokemonNames.count
         if isFiltering() {
             return filteredPokemon.count
         }
@@ -67,10 +66,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.textLabel!.text = pokemonName
         return cell
     }
+    
+    
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+
+        guard let row = self.tableView.indexPathForSelectedRow?.row else { fatalError() }
+        guard let detailVC = segue.destination as? DetailViewController else { fatalError() }
+        
+        let selectedPokemonName = PokemonStore.sortedPokemonNames[row]
+        guard let selectedPokemonID = PokemonStore.id(for: selectedPokemonName) else { fatalError() }
+        
+        detailVC.pokemonID = selectedPokemonID
+     }
+    
 }
 
 // TODO: Move to a controller object
-extension ViewController {
+extension MasterViewController {
     private func loadDecodeStorePokemon(completion: @escaping ()->()) {
         // Fetch
         NetworkLoader.loadAllPokemon { (allPokemon, errorMsg) in
@@ -101,7 +118,7 @@ extension ViewController {
     }
 }
 
-extension ViewController: UISearchResultsUpdating {
+extension MasterViewController: UISearchResultsUpdating {
     
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
@@ -109,7 +126,7 @@ extension ViewController: UISearchResultsUpdating {
     }
 }
 
-extension ViewController {
+extension MasterViewController {
     
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
