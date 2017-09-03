@@ -20,36 +20,31 @@ struct PokemonDecoder {
     ///
     /// - Parameter data: Downloaded data
     /// - Returns: [["name": String, "id": String(Int)]]?
-    static func decode(data: Data) -> [String: String]? {
-        let json = JSON(data: data)
-        // Extract the payload
-        guard let results = json.dictionaryObject?["results"] as? [[String : String]] else { return nil }
-        // We'll end up with an Array of [String<name>:  String(Int)<id>]
-        let names = results.flatMap({ dict -> (name: String, id: String)? in
-            if let name = dict["name"], let urlString = dict["url"], let url = URL(string: urlString) {
-                return (name: name.capitalized, id: url.pathComponents.last ?? "?")
-            }
-            return nil
-        })
-        var dict: [String: String] = [:]
-        for pokemon in names {
-            dict[pokemon.name] = pokemon.id
-        }
-        return dict
-    }
+//    static func decode(data: Data) -> [String: String]? {
+//        let json = JSON(data: data)
+//        // Extract the payload
+//        guard let results = json.dictionaryObject?["results"] as? [[String : String]] else { return nil }
+//        // We'll end up with an Array of [String<name>:  String(Int)<id>]
+//        let names = results.flatMap({ dict -> (name: String, id: String)? in
+//            if let name = dict["name"], let urlString = dict["url"], let url = URL(string: urlString) {
+//                return (name: name.capitalized, id: url.pathComponents.last ?? "?")
+//            }
+//            return nil
+//        })
+//        var dict: [String: String] = [:]
+//        for pokemon in names {
+//            dict[pokemon.name] = pokemon.id
+//        }
+//        return dict
+//    }
     
-    static func decode2(data: Data) -> ( baseURL: URL, data: [String: [String: String]])? {
+    static func decode(data: Data) -> (baseURL: URL, data: [String: [String: String]])? {
        
         // Extract the payload
         let json = JSON(data: data)
         guard let results = json.dictionaryObject?["results"] as? [[String : String]] else { return nil }
         
-//        // Extract base URL
-//        guard let first = results.first,
-//            let urlString = first["url"],
-//            let url = URL(string: urlString) else { return nil }
-//
-//        let baseURL = url.deletingLastPathComponent()
+        // Extract base URL
         guard let baseURL = extractBaseURL(from: results) else { return nil }
         
         // Convert [["name": "pikachu-pop-star", "url": "https://pokeapi.co/api/v2/pokemon/10082/"], ...] -> [["Pikachu-Pop-Star": ["id": "10082"], ...]
@@ -89,8 +84,6 @@ struct PokemonDecoder {
                 }
             }
         }
-        
-        print(id, name, weight, height, spriteDict)
         let pokemon = Pokemon(id: String(id), name: name.capitalized, weight: weight, height: height, images: spriteDict, pngs: nil)
         return pokemon
     }

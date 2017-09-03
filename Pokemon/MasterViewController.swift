@@ -11,9 +11,8 @@ import UIKit
 class MasterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    
+    var detailViewController: DetailViewController? = nil
     let searchController = UISearchController(searchResultsController: nil)
     var filteredPokemon = [String]()
     
@@ -30,6 +29,10 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         
+        if let splitViewController = splitViewController {
+            let controllers = splitViewController.viewControllers
+            detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+        }
         // Load data first time. TODO: What about new data?
         if PokemonStore.allPokemon.isEmpty {
             activityIndicatorView.startAnimating()
@@ -38,15 +41,15 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
                 self?.activityIndicatorView.stopAnimating()
             }
         }
-        // Experimental
-        let groupedPokemon = Dictionary(grouping: PokemonStore.allPokemon.keys){ String($0.characters.first!) }
-        let sortedGroupedPokemon = groupedPokemon.mapValues { $0.sorted() }
-        let firstCharsSortedDict = sortedGroupedPokemon.map{ [String($0.key): $0.value]  }
-
-        let result = firstCharsSortedDict.sorted { (a, b) in
-            a.keys.first! < b.keys.first!
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if splitViewController!.isCollapsed {
+            if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
+                self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
+            }
         }
-        print(result)
+        super.viewWillAppear(animated)
     }
     
     // MARK: - Table View
@@ -62,15 +65,14 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-
         let pokemonName: String
         if isFiltering() {
             pokemonName = filteredPokemon[indexPath.row]
         } else {
             pokemonName = PokemonStore.sortedPokemonNames[indexPath.row]
         }
-        
         cell.textLabel!.text = pokemonName
         return cell
     }
@@ -78,13 +80,16 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     // MARK: - Navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        guard let detailVC = segue.destination as? DetailViewController else { fatalError() }
+        guard let detailNavVC = segue.destination as? UINavigationController, let detailVC = detailNavVC.topViewController as? DetailViewController else { fatalError() }
         guard let cell = sender as? UITableViewCell else { fatalError() }
         // Storing data in cell is not so great!
         guard let selectedPokemonName = cell.textLabel?.text else { fatalError() }
         guard let selectedPokemonID = PokemonStore.id(for: selectedPokemonName) else { fatalError() }
         
         detailVC.pokemonID = selectedPokemonID
+        
+        detailVC.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+        detailVC.navigationItem.leftItemsSupplementBackButton = true
      }
 }
 
@@ -99,7 +104,7 @@ extension MasterViewController {
             }
             // Decode
             guard let allPokemon = allPokemon,
-                let decodedData = PokemonDecoder.decode2(data: allPokemon)
+                let decodedData = PokemonDecoder.decode(data: allPokemon)
             else { print("No results? Decoding error?"); return }
            
             // Save data

@@ -19,12 +19,10 @@ class DetailViewController: UIViewController {
     
     var pokemonID: String? {
         didSet{
-            print("My pokemon has ID \(String(describing: pokemonID))")
             guard let pokemonID = pokemonID else { fatalError() }
             loadPokemon(withID: pokemonID)
         }
     }
-    
     var pokemon: Pokemon?
     
     private func loadPokemon(withID id: String) {
@@ -81,15 +79,11 @@ class DetailViewController: UIViewController {
         imageView.isHidden = isHidden
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        imageView.image = UIImage()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         setHidden(true)
-        activityIndicatorView.startAnimating()
+        if pokemonID != nil {
+            activityIndicatorView.startAnimating()
+        }
+        super.viewWillAppear(animated)
     }
 }

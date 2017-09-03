@@ -56,7 +56,7 @@ class PokemonStoreTests: XCTestCase {
         // when
         PokemonStore.baseURL = testURL
         // then
-        guard let loadedURL = defaults.url(forKey: "baseURL") as? URL else { XCTFail("Did not save URL") ; return }
+        guard let loadedURL = defaults.url(forKey: "baseURL") else { XCTFail("Did not save URL") ; return }
         XCTAssertEqual(testURL, loadedURL)
     }
     
@@ -92,6 +92,5 @@ class PokemonStoreTests: XCTestCase {
         
         // then
         XCTAssertEqual(firstCharsCount, result.count )
-        //print(result)
     }
 }
