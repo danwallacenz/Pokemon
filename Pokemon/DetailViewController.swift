@@ -68,7 +68,8 @@ class DetailViewController: UIViewController {
                         imageCount += 1
                         if imageCount == images.keys.count {
                             // all loaded
-                            strongSelf.testCodable()
+//                            strongSelf.testPropertyListCodable()
+                            strongSelf.testJSONCodable()
                         }
                     }
                     strongSelf.activityIndicatorView.stopAnimating()
@@ -78,21 +79,50 @@ class DetailViewController: UIViewController {
         }
     }
     
-    private func testCodable() {
-//        let myStruct = try JSONDecoder().decode(Swifter.self, from: json) // decoding our data
+    private func testJSONCodable() {
+        var json: Data?
+        
+        // encde
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        //        encoder.outputFormat = .xml
+        do {
+            json = try encoder.encode(pokemon)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        guard json != nil else { print("no json"); return }
+        let str = String(data: json!, encoding: .utf8)
+        print(str ?? "Not there")
+        print("-------")
+        // decode
+        let decoder = JSONDecoder()
+        let pokemonDecoded: Pokemon?
+        do {
+            pokemonDecoded = try decoder.decode(Pokemon.self, from: json!)
+            guard let pokemonDecoded2 = pokemonDecoded else { print("no pokemon2");return }
+            print("\(pokemonDecoded2)")
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func testPropertyListCodable() {
         var plist: Data?
+        
+        // encde
         let encoder = PropertyListEncoder()
-        encoder.outputFormat = .xml
+//        encoder.outputFormat = .xml
         do {
             plist = try encoder.encode(pokemon)
-        } catch {
-            print("error")
+        } catch let error {
+            print(error.localizedDescription)
         }
         guard plist != nil else { print("no plist"); return }
-        print("\(plist!)")
         let str = String(data: plist!, encoding: .utf8)
         print(str ?? "Not there")
-        print()
+        
         // decode
         let decoder = PropertyListDecoder()
         let pokemonDecoded: Pokemon?
@@ -100,13 +130,9 @@ class DetailViewController: UIViewController {
             pokemonDecoded = try decoder.decode(Pokemon.self, from: plist!)
             guard let pokemonDecoded2 = pokemonDecoded else { print("no pokemon2");return }
             print("\(pokemonDecoded2)")
-        } catch {
-            print("error decoding")
+        } catch let error {
+            print(error.localizedDescription)
         }
-//        guard let pokemonDecoded2 = pokemonDecoded else { print("no pokemon2");return }
-        
-        print()
-        
     }
     
     private func setHidden(_ isHidden: Bool) {
