@@ -63,7 +63,7 @@ class DetailViewController: UIViewController {
                     print(errorMsg!)
                 } else {
                     if let image = image {
-                        strongSelf.pokemon?.addPNG(for: key, image: image)
+                        strongSelf.pokemon?.addPNG(image: image)
                         strongSelf.imageView.image = image
                         imageCount += 1
                         if imageCount == images.keys.count {
@@ -102,7 +102,9 @@ class DetailViewController: UIViewController {
         do {
             pokemonDecoded = try decoder.decode(Pokemon.self, from: json!)
             guard let pokemonDecoded2 = pokemonDecoded else { print("no pokemon2");return }
-            print("\(pokemonDecoded2)")
+//            print("\(pokemonDecoded2)")
+//            print(pokemonDecoded2.pngs)
+//            print()
         } catch let error {
             print(error.localizedDescription)
         }

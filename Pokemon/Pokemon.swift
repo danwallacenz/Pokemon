@@ -15,10 +15,19 @@ struct Pokemon: Codable {
     let weight: Int
     let height: Int
     let images: [String: URL]
-    var pngs: [String: UIImage]? = [:]
+    var pngs: [UIImage] {
+        get {
+            return pngsCodable.flatMap { UIImage(data: $0) }
+        }
+    }
+    var pngsCodable: [Data] = []
     
-    mutating func addPNG(for key: String, image: UIImage) {
-        pngs?[key] = image
+    mutating func addPNG(image: UIImage) {
+        //pngs.append(image)
+        let png = UIImagePNGRepresentation(image)
+        assert(png != nil)
+        guard png != nil else { return }
+        pngsCodable.append(UIImagePNGRepresentation(image)!)
     }
     
     private enum CodingKeys: CodingKey {
@@ -37,7 +46,7 @@ struct Pokemon: Codable {
         weight = try container.decode(Int.self, forKey: .weight)
         height = try container.decode(Int.self, forKey: .height)
         images = try container.decode([String: URL].self, forKey: .images)
-        //pngs = try container.decode([String: UIImage].self, forKey: .pngs)
+        pngsCodable = try container.decode([Data].self, forKey: .pngs)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -47,10 +56,10 @@ struct Pokemon: Codable {
         try container.encode(weight, forKey: .weight)
         try container.encode(height, forKey: .height)
         try container.encode(images, forKey: .images)
-        //try container.encode(pngs, forKey: .pngs)
+        try container.encode(pngsCodable, forKey: .pngs)
     }
     
-    init(id: String, name: String, weight: Int, height: Int, images: [String: URL], pngs: [String: UIImage]? = nil ) {
+    init(id: String, name: String, weight: Int, height: Int, images: [String: URL], pngs: [UIImage] = [] ) {
         self.id = id
         self.name = name
         self.weight = weight
