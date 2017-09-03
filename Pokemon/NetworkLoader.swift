@@ -11,21 +11,24 @@ import UIKit
 
 class NetworkLoader {
     
-    // TODO: set timeout
+    private static let session: URLSession = {
+        let defaultConfiguration = URLSessionConfiguration.default
+        defaultConfiguration.timeoutIntervalForRequest = 10
+        return URLSession(configuration: defaultConfiguration)
+    }()
+    
     static func loadAllPokemon(completion: @escaping (Data?, String?) -> ()) {
 
             if var urlComponents = URLComponents(string: "https://pokeapi.co/api/v2/pokemon") {
                 urlComponents.query = "limit=1000&offset=0"
                 guard let url = urlComponents.url else { return }
-            
-            let defaultConfiguration = URLSessionConfiguration.default
-                defaultConfiguration.timeoutIntervalForRequest = 10
-            let session = URLSession(configuration: defaultConfiguration)
                 
             (session.dataTask(with: url) { (data, response, error) in
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
-                    completion(nil, error.localizedDescription)
+                    DispatchQueue.main.async {
+                        completion(nil, error.localizedDescription)
+                    }
                 } else if let response = response as? HTTPURLResponse,
                     response.statusCode == 200,
                     let data = data {
@@ -42,10 +45,12 @@ class NetworkLoader {
         guard let baseURL = PokemonStore.baseURL else { fatalError() }
         let url = baseURL.appendingPathComponent("\(id)/")
         
-        (URLSession.shared.dataTask(with: url) { (data, response, error) in
+        (session.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
-                completion(nil, error.localizedDescription)
+                DispatchQueue.main.async {
+                    completion(nil, error.localizedDescription)
+                }
             } else if let response = response as? HTTPURLResponse,
                 response.statusCode == 200,
                 let data = data {
@@ -57,10 +62,13 @@ class NetworkLoader {
     }
     
     static func loadImage(fromURL url: URL, completion: @escaping (UIImage?, String?) -> ()) {
-        (URLSession.shared.dataTask(with: url) { (data, response, error) in
+        
+        (session.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
-                completion(nil, error.localizedDescription)
+                DispatchQueue.main.async {
+                    completion(nil, error.localizedDescription)
+                }
             } else if let response = response as? HTTPURLResponse,
                 response.statusCode == 200,
                 let data = data,

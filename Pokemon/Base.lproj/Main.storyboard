@@ -111,10 +111,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nDF-Ot-cJ1" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="-8" width="375" height="250"/>
+                                        <rect key="frame" x="0.0" y="-8" width="375" height="290"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="jbh-2f-Mxa">
-                                                <rect key="frame" x="20" y="20" width="335" height="210"/>
+                                                <rect key="frame" x="20" y="60" width="335" height="210"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JnK-mD-SEu">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="128"/>
@@ -160,7 +160,7 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="jbh-2f-Mxa" secondAttribute="trailing" constant="20" symbolic="YES" id="GoY-33-gJt"/>
                                             <constraint firstAttribute="bottom" secondItem="jbh-2f-Mxa" secondAttribute="bottom" constant="20" symbolic="YES" id="Pfb-7A-IfJ"/>
-                                            <constraint firstItem="jbh-2f-Mxa" firstAttribute="top" secondItem="nDF-Ot-cJ1" secondAttribute="top" constant="20" symbolic="YES" id="SO8-61-K1a"/>
+                                            <constraint firstItem="jbh-2f-Mxa" firstAttribute="top" secondItem="nDF-Ot-cJ1" secondAttribute="top" constant="60" id="SO8-61-K1a"/>
                                             <constraint firstItem="jbh-2f-Mxa" firstAttribute="leading" secondItem="nDF-Ot-cJ1" secondAttribute="leading" constant="20" symbolic="YES" id="q3f-hL-CBk"/>
                                         </constraints>
                                     </view>
