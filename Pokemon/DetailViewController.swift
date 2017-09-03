@@ -102,9 +102,10 @@ class DetailViewController: UIViewController {
         do {
             pokemonDecoded = try decoder.decode(Pokemon.self, from: json!)
             guard let pokemonDecoded2 = pokemonDecoded else { print("no pokemon2");return }
-//            print("\(pokemonDecoded2)")
-//            print(pokemonDecoded2.pngs)
-//            print()
+            print("\(pokemonDecoded2)")
+            print(pokemonDecoded2.pngs)
+            let pngs = pokemonDecoded2.pngs[0]
+            print()
         } catch let error {
             print(error.localizedDescription)
         }

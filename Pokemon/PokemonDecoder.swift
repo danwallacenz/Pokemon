@@ -67,14 +67,17 @@ struct PokemonDecoder {
         return url.deletingLastPathComponent() // remove id
     }
     
+    /// Decode from network fetch
     static func decodePokemon(data: Data) -> Pokemon? {
         // Extract the payload
         let json = JSON(data: data)
+        
         guard let dict = json.dictionaryObject else { return nil }
         guard let id = dict["id"] as? Int else { return nil }
         guard let name = dict["name"] as? String else { return nil }
         guard let weight = dict["weight"] as? Int else { return nil }
         guard let height = dict["height"] as? Int else { return nil }
+        // uglee
         var spriteDict = [String: URL]()
         if let sprites = dict["sprites"] as? [String: Any] {
             for key in sprites.keys {
@@ -86,5 +89,18 @@ struct PokemonDecoder {
         }
         let pokemon = Pokemon(id: String(id), name: name.capitalized, weight: weight, height: height, images: spriteDict)
         return pokemon
+    }
+    
+    /// Serialize Pokemon for storage
+    static func encode(pokemon: Pokemon) -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        return try? encoder.encode(pokemon)
+    }
+    
+    /// Deserialize Pokemon from storage
+    static func decode(pokemon json: Data) -> Pokemon? {
+        let decoder = JSONDecoder()
+        return try? decoder.decode(Pokemon.self, from: json)
     }
 }

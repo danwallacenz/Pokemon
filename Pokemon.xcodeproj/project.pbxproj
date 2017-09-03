@@ -21,6 +21,8 @@
 		3C9E4E011F56CD91002ABA7F /* PokemonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E4E001F56CD91002ABA7F /* PokemonDecoder.swift */; };
 		3CC970451F5A71B400CDF881 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC970441F5A71B400CDF881 /* DetailViewController.swift */; };
 		3CC970471F5A71FA00CDF881 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC970461F5A71FA00CDF881 /* Pokemon.swift */; };
+		3CD3F4621F5BFC40008FFF5E /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CD3F4611F5BFC40008FFF5E /* Media.xcassets */; };
+		3CD3F4631F5C070E008FFF5E /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CD3F4611F5BFC40008FFF5E /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,7 @@
 		3C9E4E001F56CD91002ABA7F /* PokemonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDecoder.swift; sourceTree = "<group>"; };
 		3CC970441F5A71B400CDF881 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3CC970461F5A71FA00CDF881 /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
+		3CD3F4611F5BFC40008FFF5E /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,7 @@
 				3C9E4DF51F56C550002ABA7F /* Info.plist */,
 				3C9C6ED41F57D8E400B6AF38 /* PokemonDecoderTest.swift */,
 				3C9C6ED61F57D93600B6AF38 /* PokemonTestData.swift */,
+				3CD3F4611F5BFC40008FFF5E /* Media.xcassets */,
 			);
 			path = PokemonTests;
 			sourceTree = "<group>";
@@ -205,6 +209,7 @@
 			files = (
 				3C9E4DE91F56C550002ABA7F /* LaunchScreen.storyboard in Resources */,
 				3C9E4DE61F56C550002ABA7F /* Assets.xcassets in Resources */,
+				3CD3F4631F5C070E008FFF5E /* Media.xcassets in Resources */,
 				3C9E4DE41F56C550002ABA7F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CD3F4621F5BFC40008FFF5E /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
