@@ -84,7 +84,7 @@ struct PokemonDecoder {
                 }
             }
         }
-        let pokemon = Pokemon(id: String(id), name: name.capitalized, weight: weight, height: height, images: spriteDict, pngs: nil)
+        let pokemon = Pokemon(id: String(id), name: name.capitalized, weight: weight, height: height, images: spriteDict)
         return pokemon
     }
 }
