@@ -16,28 +16,6 @@ struct PokemonDecoder {
         return rawCount
     }
     
-    /// Convert a Data blob into an Array of ["name": String, "id": String(Int)] if possible.
-    ///
-    /// - Parameter data: Downloaded data
-    /// - Returns: [["name": String, "id": String(Int)]]?
-//    static func decode(data: Data) -> [String: String]? {
-//        let json = JSON(data: data)
-//        // Extract the payload
-//        guard let results = json.dictionaryObject?["results"] as? [[String : String]] else { return nil }
-//        // We'll end up with an Array of [String<name>:  String(Int)<id>]
-//        let names = results.flatMap({ dict -> (name: String, id: String)? in
-//            if let name = dict["name"], let urlString = dict["url"], let url = URL(string: urlString) {
-//                return (name: name.capitalized, id: url.pathComponents.last ?? "?")
-//            }
-//            return nil
-//        })
-//        var dict: [String: String] = [:]
-//        for pokemon in names {
-//            dict[pokemon.name] = pokemon.id
-//        }
-//        return dict
-//    }
-    
     static func decode(data: Data) -> (baseURL: URL, data: [String: [String: String]])? {
        
         // Extract the payload

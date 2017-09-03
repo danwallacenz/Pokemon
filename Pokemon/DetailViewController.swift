@@ -53,7 +53,14 @@ class DetailViewController: UIViewController {
             setHidden(false) // no more data
             return
         }
-        // Could have an animated image with these ...
+        loadImageData(from: images) { [weak self] pngs in
+            guard let _/*strongSelf*/ = self else { return }
+            // We have all the images now ... animated image?
+            
+        }
+    }
+    
+    private func loadImageData(from images: [String : URL], completion: @escaping ([UIImage]?) -> ()) {
         var imageCount = 0
         for key in images.keys {
             guard let imageURL = images[key] else { continue }
@@ -64,77 +71,17 @@ class DetailViewController: UIViewController {
                 } else {
                     if let image = image {
                         strongSelf.pokemon?.addPNG(image: image)
-                        strongSelf.imageView.image = image
+                        strongSelf.imageView.image = image // will usually show several
                         imageCount += 1
                         if imageCount == images.keys.count {
                             // all loaded
-//                            strongSelf.testPropertyListCodable()
-                            strongSelf.testJSONCodable()
+                            completion(strongSelf.pokemon?.pngs)
                         }
                     }
                     strongSelf.activityIndicatorView.stopAnimating()
                     strongSelf.setHidden(false) // we have enough data
                 }
             }
-        }
-    }
-    
-    private func testJSONCodable() {
-        var json: Data?
-        
-        // encde
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        //        encoder.outputFormat = .xml
-        do {
-            json = try encoder.encode(pokemon)
-        } catch let error {
-            print(error.localizedDescription)
-        }
-        
-        guard json != nil else { print("no json"); return }
-        let str = String(data: json!, encoding: .utf8)
-        print(str ?? "Not there")
-        print("-------")
-        // decode
-        let decoder = JSONDecoder()
-        let pokemonDecoded: Pokemon?
-        do {
-            pokemonDecoded = try decoder.decode(Pokemon.self, from: json!)
-            guard let pokemonDecoded2 = pokemonDecoded else { print("no pokemon2");return }
-            print("\(pokemonDecoded2)")
-            print(pokemonDecoded2.pngs)
-            let pngs = pokemonDecoded2.pngs[0]
-            print()
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func testPropertyListCodable() {
-        var plist: Data?
-        
-        // encde
-        let encoder = PropertyListEncoder()
-//        encoder.outputFormat = .xml
-        do {
-            plist = try encoder.encode(pokemon)
-        } catch let error {
-            print(error.localizedDescription)
-        }
-        guard plist != nil else { print("no plist"); return }
-        let str = String(data: plist!, encoding: .utf8)
-        print(str ?? "Not there")
-        
-        // decode
-        let decoder = PropertyListDecoder()
-        let pokemonDecoded: Pokemon?
-        do {
-            pokemonDecoded = try decoder.decode(Pokemon.self, from: plist!)
-            guard let pokemonDecoded2 = pokemonDecoded else { print("no pokemon2");return }
-            print("\(pokemonDecoded2)")
-        } catch let error {
-            print(error.localizedDescription)
         }
     }
     
